@@ -34,7 +34,7 @@ module Venice
       @shared_secret = options[:shared_secret] if options[:shared_secret]
       @exclude_old_transactions = options[:exclude_old_transactions] if options[:exclude_old_transactions]
 
-      if options[:verify_locally] == true
+      if options[:local] == true
         return Receipt.new(ASN1Receipt.new(data).to_hash)
       end
 
