@@ -12,12 +12,11 @@ module Venice
       1712 => :cancellation_date,
       1719 => :is_in_intro_offer_period,
     }
-    DATE_ATTRIBUTES = [1704, 1706, 1708, 1712]
 
-    def to_json
+    def to_hash
       result = {}
       IAP_ATTRIBUTES.values.each do |attr|
-        result[attr.to_s] = send(attr) if instance_methods(false).include?(attr)
+        result[attr.to_s] = send(attr) if respond_to?(attr)
       end
       result
     end

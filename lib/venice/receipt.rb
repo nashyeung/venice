@@ -74,9 +74,9 @@ module Venice
       end
     end
 
-    def self.from_asn1_receipt(base64_encoded_receipt)
-      asn1_receipt = ASN1Receipt.new(base64_encoded_receipt)
-      new(asn1_receipt.to_json)
+    def self.from_asn1_receipt(base64_receipt_data)
+      asn1_receipt = ASN1Receipt.new(base64_receipt_data)
+      new(asn1_receipt.to_hash)
     end
 
     def to_hash

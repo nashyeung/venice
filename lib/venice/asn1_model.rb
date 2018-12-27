@@ -20,11 +20,22 @@ module Venice
       end
     end
 
+    def native_value(segment)
+      asn1_obj = segment.value
+
+      case asn1_obj
+      when OpenSSL::ASN1::Integer
+        asn1_obj.value.to_i
+      else
+        asn1_obj.value.to_s
+      end
+    end
+
     def handle_segment(segment)
       method_name = attribute_name_for_type_id(segment.type)
       return unless method_name
 
-      define_singleton_method(method_name) { segment }
+      define_singleton_method(method_name) { native_value(segment) }
     end
   end
 end

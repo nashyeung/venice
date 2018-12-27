@@ -72,8 +72,12 @@ module Venice
       # expires_date is in ms since the Epoch, Time.at expects seconds
       if attributes['expires_date_ms']
         @expires_at = Time.at(attributes['expires_date_ms'].to_i / 1000)
-      elsif attributes['expires_date'] && is_number?(attributes['expires_date'])
-        @expires_at = Time.at(attributes['expires_date'].to_i / 1000)
+      elsif attributes['expires_date']
+        if is_number?(attributes['expires_date'])
+          @expires_at = Time.at(attributes['expires_date'].to_i / 1000)
+        else
+          @expires_at = DateTime.parse(attributes['expires_date'])
+        end
       end
 
       # cancellation_date is in ms since the Epoch, Time.at expects seconds

@@ -16,7 +16,7 @@ module Venice
     attr_reader :base64_receipt
 
     def initialize(base64_receipt_data)
-      receipt_date = Base64.decode64(base64_receipt_data)
+      receipt_data = Base64.decode64(base64_receipt_data)
       container = read_container(receipt_data)
       container.verify(nil, Venice.cert_store) || fail(InvalidSignature)
       @base64_receipt = base64_receipt_data
@@ -24,18 +24,18 @@ module Venice
       super(container.data)
     end
 
-    def to_json
+    def to_hash
       result = {
         'original_json_response' => { 'latest_receipt' => @base64_receipt },
-        'receipt' => { 'in_app' => [] }
+        'in_app' => []
       }
 
       RECEIPT_ATTRIBUTES.values.each do |attr|
-        result['receipt'][attr.to_s] = send(attr) if instance_methods(false).include?(attr)
+        result[attr.to_s] = send(attr) if respond_to?(attr)
       end
 
       in_app_purchases.each do |in_app_purchase|
-        result['receipt']['in_app'] << in_app_purchase.to_json
+        result['in_app'] << in_app_purchase.to_hash
       end
 
       result
@@ -57,7 +57,7 @@ module Venice
     def read_container(binary)
       OpenSSL::PKCS7.new(binary)
     rescue => e
-      fail(InvalidData, "Could not parse PKCS7 (#{e})")
+      fail InvalidData, "Could not parse PKCS7 (#{e})"
     end
   end
 end
