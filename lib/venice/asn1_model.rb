@@ -1,5 +1,5 @@
 module Venice
-  class AsnModel
+  class ASN1Model
     class Segment
       attr_reader :type, :version, :value
 

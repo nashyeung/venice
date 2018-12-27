@@ -1,5 +1,5 @@
 module Venice
-  class AsnReceipt < AsnModel
+  class ASN1Receipt < ASN1Model
     class InvalidData < StandardError; end
     class InvalidSignature < StandardError; end
 
@@ -49,7 +49,7 @@ module Venice
 
     def handle_segment(segment)
       return super unless segment.type == IAP_SEGMENT_TYPE_ID
-      in_app_purchases << AsnInAppPurchase.new(segment.value)
+      in_app_purchases << ASNInAppPurchase.new(segment.value)
     end
 
     private

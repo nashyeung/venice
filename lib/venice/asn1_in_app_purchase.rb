@@ -1,5 +1,5 @@
 module Venice
-  class InAppPurchase < AsnModel
+  class ASN1InAppPurchase < ASNModel
     IAP_ATTRIBUTES = {
       1701 => :quantity,
       1702 => :product_id,
