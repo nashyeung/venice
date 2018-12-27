@@ -34,6 +34,10 @@ module Venice
       @shared_secret = options[:shared_secret] if options[:shared_secret]
       @exclude_old_transactions = options[:exclude_old_transactions] if options[:exclude_old_transactions]
 
+      if options[:verify_locally] == true
+        return Receipt.new(ASN1Receipt.new(data).to_hash)
+      end
+
       json = json_response_from_verifying_data(data, options)
       receipt_attributes = json['receipt'].dup if json['receipt']
       receipt_attributes['original_json_response'] = json if receipt_attributes
