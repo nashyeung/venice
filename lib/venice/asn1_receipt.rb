@@ -49,7 +49,7 @@ module Venice
 
     def handle_segment(segment)
       return super unless segment.type == IAP_SEGMENT_TYPE_ID
-      in_app_purchases << ASNInAppPurchase.new(segment.value)
+      in_app_purchases << ASN1InAppPurchase.new(segment.value)
     end
 
     private
